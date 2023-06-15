@@ -1,0 +1,9 @@
+server{
+    listen 8080;
+    listen [::]:8080;
+    server_name nginx_proxy;
+
+    location / {
+        proxy_pass http://${WEB_SERVER_HOST}:${WEB_PORT};
+    }
+}

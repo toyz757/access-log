@@ -1,0 +1,75 @@
+version: '3.3'
+
+services:
+
+  # Webサーバ
+  web-server:
+    build: 
+      context: apache
+      dockerfile: Dockerfile
+    container_name: ${WEB_CONTAINER_NAME}
+
+  # リバースプロキシ
+  rp:
+    build:
+      context: rp
+      dockerfile: Dockerfile
+    container_name: rp
+    ports:
+      - "${RP_PORT}:8080"
+    environment:
+      - WEB_SERVER_HOST=${WEB_CONTAINER_NAME}
+      - WEB_PORT=${WEB_PORT}
+    volumes:
+      - ./volume:/var/log/nginx
+
+  # 定期データ登録処理
+  cron-server:
+    build:
+      context: cron
+      dockerfile: Dockerfile
+    container_name: cron-server
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_CONTAINER_NAME}
+      - DB_NAME=${DB_NAME}
+    volumes:
+      - ./volume:/usr/src/log
+
+  # BIツール
+  bi:
+    build:
+      context: grafana
+      dockerfile: Dockerfile
+    container_name: grafana
+    hostname: grafana
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+
+  # ログ管理データベース
+  postgres:
+    build: 
+      context: db
+      dockerfile: Dockerfile
+    container_name: ${DB_CONTAINER_NAME}
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+
+  # postgresのデータをGUI操作
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: pgweb
+    restart: always
+    ports:
+      - ${PGWEB_PORT}:8081
+    environment:
+      - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_CONTAINER_NAME}:5432/${DB_NAME}?sslmode=disable
+    depends_on:
+      - postgres

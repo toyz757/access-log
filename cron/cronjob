@@ -1,0 +1,2 @@
+# 毎日1時
+0 1 * * * python /usr/src/register.py
