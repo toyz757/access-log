@@ -4,11 +4,15 @@ CREATE TABLE access_logs(
     remote_addr VARCHAR(40) not null,
     remote_user VARCHAR(20),
     time_iso8601 TIMESTAMP with time zone not null,
-    request VARCHAR(40) not null,
+    url VARCHAR(40) not null,
     status INT not null,
     body_bytes_send INT not null,
     http_referer VARCHAR(40),
-    http_user_agent VARCHAR(200),
+    browser_family VARCHAR(20),
+    browser_version VARCHAR(20),
+    user_os_family VARCHAR(20),
+    user_os_version VARCHAR(20),
+    user_device_family VARCHAR(20),
     http_x_forwarded_for VARCHAR(40),
     primary key(log_id)
 );

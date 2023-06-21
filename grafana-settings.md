@@ -5,9 +5,10 @@ Grafanaのグラフ作成のためのSQLなどを保存しておくためのド�
 ## SQL一覧
 
 - 月毎のアクセス回数  
+※時系列表示のためには、片方のデータが`date`や`datetime`型である必要がある
 
 ```sql
-SELECT to_char(time_iso8601, 'YYYY/MM/dd') as date,
+SELECT to_date(to_char(time_iso8601, 'YYYY/MM/dd'),'YYYY/MM/dd') as date,
        count(*)
 FROM access_logs 
 GROUP BY date

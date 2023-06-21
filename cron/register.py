@@ -4,6 +4,7 @@ import re
 import psycopg2
 from datetime import datetime
 import urllib.parse
+from user_agents import parse
 
 # Nginxログファイルのディレクトリとファイル名のベース
 nginx_log_dir = "/usr/src/log/"
@@ -39,20 +40,28 @@ with open(nginx_log_path, "r") as file:
             remote_user = match.group(2)
             time_iso8601 = datetime.strptime(match.group(4), "%d/%b/%Y:%H:%M:%S %z")
             request = match.group(6)
+            parseRequest = urllib.parse.urlparse(request)
+            url = parseRequest.netloc + parseRequest.path
             status = int(match.group(8))
             body_bytes_send = int(match.group(9))
             http_referer = match.group(10)
             http_user_agent = match.group(11)
+            user_agent = parse(http_user_agent)
+            browser_family = user_agent.browser.family
+            browser_version = user_agent.browser.version_string
+            user_os_family = user_agent.os.family
+            user_os_version = user_agent.os.version_string
+            user_device_family = user_agent.device.family
             http_x_forwarded_for = match.group(12)
             
             # アクセスログをaccess_logsテーブルに挿入する
             cursor.execute("""
-                INSERT INTO access_logs (remote_addr, remote_user, time_iso8601, request, status, body_bytes_send, http_referer, http_user_agent, http_x_forwarded_for)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """, (remote_addr, remote_user, time_iso8601, request, status, body_bytes_send, http_referer, http_user_agent, http_x_forwarded_for))
+                INSERT INTO access_logs (remote_addr, remote_user, time_iso8601, url, status, body_bytes_send, http_referer, browser_family, browser_version, user_os_family, user_os_version, user_device_family, http_x_forwarded_for)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (remote_addr, remote_user, time_iso8601, url, status, body_bytes_send, http_referer, browser_family, browser_version, user_os_family, user_os_version, user_device_family, http_x_forwarded_for))
             
             # クエリパラメータを解析して辞書に格納する
-            query_params = urllib.parse.parse_qs(urllib.parse.urlparse(request).query)
+            query_params = urllib.parse.parse_qs(parseRequest.query)
 
             # クエリパラメータを表示する
             for key, values in query_params.items():
