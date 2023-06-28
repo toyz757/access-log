@@ -9,7 +9,7 @@ jobs:
     container:
       image: python:3.12.0a7-slim
       volumes:
-        - ($pwd)/cron:/cron/
+        - ${PWD}/cron:/cron/
     steps:
       - name: check lisence
         run: |
