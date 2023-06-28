@@ -2,8 +2,12 @@ name: lisence check
 
 on:
   push:
+    paths:
+      - 'cron/requirements.txt'
+      - '.github/workflows/lisence-check.yaml'
 
 jobs:
+
   lisence-check:
     runs-on: ubuntu-22.04
     container:
@@ -13,10 +17,6 @@ jobs:
         uses: actions/checkout@v3
       - name: check lisence
         run: |
-          ls -al /github
-          ls -al /github/workflow
-          ls -al /github/home
-          ls -al /__w
-          ls -al
+          cd cron
           pip install pip-licenses
           pip-licenses --order=license
