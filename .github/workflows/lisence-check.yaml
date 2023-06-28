@@ -1,0 +1,17 @@
+name: lisence check
+
+on:
+  push:
+
+jobs:
+  lisence-check:
+    runs-on: centos-latest
+    container:
+      image: python:3.12.0a7-slim
+      voluems:
+        - ./:cron/
+    steps:
+      - name: check lisence
+        run: |
+          pip install pip-licenses
+          pip-licenses --order=license
