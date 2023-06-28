@@ -5,7 +5,7 @@ on:
 
 jobs:
   lisence-check:
-    runs-on: centos-latest
+    runs-on: ubuntu-22.04
     container:
       image: python:3.12.0a7-slim
       volumes:
