@@ -18,5 +18,6 @@ jobs:
       - name: check lisence
         run: |
           cd cron
+          ls -al
           pip install pip-licenses
           pip-licenses --order=license
