@@ -13,5 +13,7 @@ jobs:
     steps:
       - name: check lisence
         run: |
+          ls -al
+          pwd
           pip install pip-licenses
           pip-licenses --order=license
