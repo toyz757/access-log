@@ -9,6 +9,8 @@ jobs:
     container:
       image: python:3.12.0a7-slim
     steps:
+      - name: chackout
+        uses: actions/checkout@v3
       - name: check lisence
         run: |
           ls -al /github
