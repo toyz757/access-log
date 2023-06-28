@@ -20,7 +20,7 @@ jobs:
           cd cron
           chmod 775 ./*
           ls -al
-          sudo pip install --upgrade pip
-          sudo pip install -r requirements.txt
-          sudo pip install pip-licenses
-          sudo pip-licenses --order=license
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pip-licenses
+          pip-licenses --order=license
