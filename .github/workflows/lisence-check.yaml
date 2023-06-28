@@ -8,7 +8,7 @@ jobs:
     runs-on: centos-latest
     container:
       image: python:3.12.0a7-slim
-      voluems:
+      volumes:
         - ./:cron/
     steps:
       - name: check lisence
