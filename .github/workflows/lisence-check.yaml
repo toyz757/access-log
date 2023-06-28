@@ -9,7 +9,7 @@ jobs:
     container:
       image: python:3.12.0a7-slim
       volumes:
-        - cron:/cron/
+        - cron:/__w/access-log/access-log/
     steps:
       - name: check lisence
         run: |
