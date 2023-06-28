@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: check lisence
         run: |
-          ls -al /_w
+          ls -al /github
           ls -al /github/workflow
           ls -al /github/home
           pip install pip-licenses
