@@ -8,12 +8,11 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: python:3.12.0a7-slim
-      volumes:
-        - cron:/__w/access-log/access-log/
     steps:
       - name: check lisence
         run: |
-          ls -al
-          pwd
+          ls -al /_w
+          ls -al /github/workflow
+          ls -al /github/home
           pip install pip-licenses
           pip-licenses --order=license
