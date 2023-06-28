@@ -9,12 +9,13 @@ jobs:
     container:
       image: python:3.12.0a7-slim
     steps:
-      - name: chackout
+      - name: checkout
         uses: actions/checkout@v3
       - name: check lisence
         run: |
           ls -al /github
           ls -al /github/workflow
           ls -al /github/home
+          ls -al /__w
           pip install pip-licenses
           pip-licenses --order=license
