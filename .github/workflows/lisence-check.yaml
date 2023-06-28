@@ -17,5 +17,6 @@ jobs:
           ls -al /github/workflow
           ls -al /github/home
           ls -al /__w
+          ls -al
           pip install pip-licenses
           pip-licenses --order=license
