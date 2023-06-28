@@ -20,5 +20,6 @@ jobs:
           cd cron
           chmod 775 ./*
           ls -al
+          pip install --upgrade pip
           pip install pip-licenses
           pip-licenses --order=license
