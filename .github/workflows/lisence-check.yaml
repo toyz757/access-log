@@ -14,7 +14,6 @@ jobs:
       image: python:3.12.0a7-slim
       volumes:
         - /github/home/.cache/pip:/github/home/.cache/pip
-        - .:.
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -30,7 +29,7 @@ jobs:
         run: |
           cd cron
           pwd
-          chmod 775 ./*
+          chmod 777 ./*
           ls -al
           pip install --upgrade pip
           pip install -r requirements.txt
