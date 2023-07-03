@@ -29,6 +29,7 @@ jobs:
       - name: check lisence
         run: |
           cd cron
+          pwd
           chmod 775 ./*
           ls -al
           pip install --upgrade pip
