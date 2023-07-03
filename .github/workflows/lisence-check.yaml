@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: python:3.12.0a7-slim
+      volumes:
+        - /github/home/.cache/pip:/github/home/.cache/pip
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -20,6 +22,9 @@ jobs:
         with:
           path: /github/home/.cache/pip
           key: pip-${{ hashFiles('cron/requirements.txt') }}
+          restore-keys: |
+            pip-${{ hashFiles('cron/requirements.txt') }}
+            pip-
       - name: check lisence
         run: |
           cd cron
