@@ -14,6 +14,7 @@ jobs:
       image: python:3.12.0a7-slim
       volumes:
         - /github/home/.cache/pip:/github/home/.cache/pip
+        - .:.
     steps:
       - name: checkout
         uses: actions/checkout@v3
