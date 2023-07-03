@@ -15,6 +15,11 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+      - name: cache
+        uses: actions/cache@v3
+        with:
+          path: /github/home/.cache/pip
+          key: pip-${{ hashFiles('cron/requirements.txt') }}
       - name: check lisence
         run: |
           cd cron
